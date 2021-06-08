@@ -8,6 +8,7 @@ return array(
     'Enable "Search in Description"' => 'активировать "Поиск по описанию" ',
     'Enable "Search in Subtask Title"' => 'активировать "Поиск в подзадачах" ',
     'Enable "Search in Attachments"' => 'активировать "Поиск во вложениях" ',
+    'Enable "Search in Project"' => 'Enable "Search in Project"',
     'Save' => 'Сохранить',
     'Settings' => 'Настройки',
 );

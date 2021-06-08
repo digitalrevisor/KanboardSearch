@@ -8,6 +8,7 @@ use Kanboard\Model\CommentModel;
 use Kanboard\Model\TaskFileModel;
 use Kanboard\Model\SubtaskModel;
 use Kanboard\Model\TaskModel;
+use Kanboard\Model\ProjectModel;
 use Kanboard\Model\ConfigModel;
 use PicoDb\Database;
 
@@ -80,7 +81,7 @@ class AdvancedSearchFilter extends BaseFilter implements FilterInterface
      */
     public function getAttributes()
     {
-        return array('title', 'comment', 'description', 'desc', 'taskId');
+        return array('title', 'comment', 'description', 'desc', 'taskId', "project");
     }
 
     /**
@@ -105,8 +106,9 @@ class AdvancedSearchFilter extends BaseFilter implements FilterInterface
         $subtaskTitlesIds = $this->getTaskIdsWithGivenSubtaskTitles();
         $attachmentIds = $this->getTaskIdsWithGivenAttachmentName();
         $taskIds = $this->getTaskIdsWithGivenId();
+        $projectIds = $this->getTaskIdsWithGivenProject();
 
-        $task_ids = array_merge($commentTaskIds, $titlesTaskIds, $descriptionTaskIds, $subtaskTitlesIds, $attachmentIds, $taskIds);
+        $task_ids = array_merge($commentTaskIds, $titlesTaskIds, $descriptionTaskIds, $subtaskTitlesIds, $attachmentIds, $taskIds, $projectIds);
 
         if (empty($task_ids)) {
             $task_ids = array(-1);
@@ -240,4 +242,35 @@ class AdvancedSearchFilter extends BaseFilter implements FilterInterface
 		}
 		return array();
 	}
+
+    /**
+     * Get project ids having this project name
+     *
+     * @access public
+     * @return array
+     */
+    private function getTaskIdsWithGivenProject()
+    {
+        if($this->config->get('project_search') == 1) {
+            $projectIds = $this->db
+                ->table(ProjectModel::TABLE)
+                ->ilike(ProjectModel::TABLE . '.name', '%' . $this->value . '%')
+                ->findAllByColumn(ProjectModel::TABLE . '.id');
+
+            $result = [];
+
+            foreach($projectIds as $projectId) {
+             $taskIds = $this->db
+             ->table(TaskModel::TABLE)
+             ->ilike(TaskModel::TABLE . '.project_id', '%' . $projectId . '%')
+             ->findAllByColumn(TaskModel::TABLE . '.id');
+
+             foreach($taskIds as $taskId) {
+                 $result[] = $taskId;
+             }
+            }
+            return $result;
+        }
+        return array();
+    }
 }
