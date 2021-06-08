@@ -260,15 +260,16 @@ class AdvancedSearchFilter extends BaseFilter implements FilterInterface
             $result = [];
 
             foreach($projectIds as $projectId) {
-             $taskIds = $this->db
-             ->table(TaskModel::TABLE)
-             ->ilike(TaskModel::TABLE . '.project_id', '%' . $projectId . '%')
-             ->findAllByColumn(TaskModel::TABLE . '.id');
+                $taskIds = $this->db
+                    ->table(TaskModel::TABLE)
+                    ->ilike(TaskModel::TABLE . '.project_id', '%' . $projectId . '%')
+                    ->findAllByColumn(TaskModel::TABLE . '.id');
 
-             foreach($taskIds as $taskId) {
-                 $result[] = $taskId;
-             }
+                foreach($taskIds as $taskId) {
+                    $result[] = $taskId;
+                }
             }
+
             return $result;
         }
         return array();
