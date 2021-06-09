@@ -9,6 +9,7 @@ return array(
     'Enable "Search in Subtask Title"' => '"Suche in Teilaufgaben" aktivieren',
     'Enable "Search in Attachments"' => '"Suche in Anhänge" aktivieren',
     'Enable "Search in Project"' => 'Enable "Search in Project"',
+    'Enable "Search in Metadata Value"' => 'Enable "Search in Metadata Value"',
     'Save' => 'Speichern',
     'Settings' => 'Einstellungen',
 );

@@ -9,6 +9,7 @@ return array(
     'Enable "Search in Subtask Title"' => 'активировать "Поиск в подзадачах" ',
     'Enable "Search in Attachments"' => 'активировать "Поиск во вложениях" ',
     'Enable "Search in Project"' => 'Enable "Search in Project"',
+    'Enable "Search in Metadata Value"' => 'Enable "Search in Metadata Value"',
     'Save' => 'Сохранить',
     'Settings' => 'Настройки',
 );

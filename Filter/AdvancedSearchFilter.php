@@ -9,6 +9,7 @@ use Kanboard\Model\TaskFileModel;
 use Kanboard\Model\SubtaskModel;
 use Kanboard\Model\TaskModel;
 use Kanboard\Model\ProjectModel;
+use Kanboard\Model\TaskHasMetadataModel;
 use Kanboard\Model\ConfigModel;
 use PicoDb\Database;
 
@@ -81,7 +82,7 @@ class AdvancedSearchFilter extends BaseFilter implements FilterInterface
      */
     public function getAttributes()
     {
-        return array('title', 'comment', 'description', 'desc', 'taskId', "project");
+        return array('title', 'comment', 'description', 'desc', 'taskId', "project", 'metadatavalue');
     }
 
     /**
@@ -107,8 +108,9 @@ class AdvancedSearchFilter extends BaseFilter implements FilterInterface
         $attachmentIds = $this->getTaskIdsWithGivenAttachmentName();
         $taskIds = $this->getTaskIdsWithGivenId();
         $projectIds = $this->getTaskIdsWithGivenProject();
+        $metadatavalueIds = $this->getTaskIdsWithGivenMetadataValue();
 
-        $task_ids = array_merge($commentTaskIds, $titlesTaskIds, $descriptionTaskIds, $subtaskTitlesIds, $attachmentIds, $taskIds, $projectIds);
+        $task_ids = array_merge($commentTaskIds, $titlesTaskIds, $descriptionTaskIds, $subtaskTitlesIds, $attachmentIds, $taskIds, $projectIds, $metadatavalueIds);
 
         if (empty($task_ids)) {
             $task_ids = array(-1);
@@ -271,6 +273,23 @@ class AdvancedSearchFilter extends BaseFilter implements FilterInterface
             }
 
             return $result;
+        }
+        return array();
+    }
+
+    /**
+     * Get task ids having this metadata value
+     *
+     * @access public
+     * @return array
+     */
+    private function getTaskIdsWithGivenMetadataValue()
+    {
+        if($this->config->get('metadatavalue_search') == 1) {
+            return $this->db
+                ->table(TaskHasMetadataModel::TABLE)
+                ->ilike(TaskHasMetadataModel::TABLE . '.value', '%' . $this->value . '%')
+                ->findAllByColumn(TaskHasMetadataModel::TABLE . '.id');
         }
         return array();
     }
