@@ -39,7 +39,8 @@ class AdvancedSearchController extends BaseController
                     'description_search' => 0,
                     'subtask_search' => 0,
                     'attachment_search' => 0,
-                    'id_search' => 0
+                    'id_search' => 0,
+                    'project_search' => 0
                     );
                 break;
         }
