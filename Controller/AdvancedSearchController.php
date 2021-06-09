@@ -41,7 +41,7 @@ class AdvancedSearchController extends BaseController
                     'attachment_search' => 0,
                     'id_search' => 0,
                     'project_search' => 0,
-                    'metadatavalue_search'
+                    'metadatavalue_search' => 0
                     );
                 break;
         }

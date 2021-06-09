@@ -9,7 +9,7 @@ use Kanboard\Model\TaskFileModel;
 use Kanboard\Model\SubtaskModel;
 use Kanboard\Model\TaskModel;
 use Kanboard\Model\ProjectModel;
-use Kanboard\Model\TaskHasMetadataModel;
+use Kanboard\Model\TaskMetadataModel;
 use Kanboard\Model\ConfigModel;
 use PicoDb\Database;
 
@@ -287,9 +287,9 @@ class AdvancedSearchFilter extends BaseFilter implements FilterInterface
     {
         if($this->config->get('metadatavalue_search') == 1) {
             return $this->db
-                ->table(TaskHasMetadataModel::TABLE)
-                ->ilike(TaskHasMetadataModel::TABLE . '.value', '%' . $this->value . '%')
-                ->findAllByColumn(TaskHasMetadataModel::TABLE . '.id');
+                ->table('task_has_metadata')
+                ->ilike('task_has_metadata' . '.value', '%' . $this->value . '%')
+                ->findAllByColumn('task_has_metadata' . '.task_id');
         }
         return array();
     }
